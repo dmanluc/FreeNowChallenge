@@ -1,4 +1,4 @@
-package dev.dmanluc.freenowchallenge
+package dev.dmanluc.freenowchallenge.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,7 +9,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import dev.dmanluc.freenowchallenge.databinding.ActivityMapsBinding
+import dev.dmanluc.freenowchallenge.presentation.databinding.ActivityMapsBinding
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
