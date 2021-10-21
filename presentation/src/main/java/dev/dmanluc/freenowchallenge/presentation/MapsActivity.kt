@@ -1,8 +1,15 @@
 package dev.dmanluc.freenowchallenge.presentation
 
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Activity
+import android.os.Build
 import android.os.Bundle
-
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowInsets
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -21,6 +28,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        makeStatusBarTransparent()
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -44,5 +53,23 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val sydney = LatLng(-34.0, 151.0)
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    }
+
+    fun Activity.makeStatusBarTransparent() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            // show app content in fullscreen, i. e. behind the bars when they are shown (alternative to
+            // deprecated View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION and View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+            window.setDecorFitsSystemWindows(false)
+            // finally, show the system bars
+            window.insetsController?.show(WindowInsets.Type.statusBars())
+            window.insetsController?.hide(WindowInsets.Type.navigationBars())
+        } else {
+            // Shows the system bars by removing all the flags
+            // except for the ones that make the content appear under the system bars.
+            @Suppress("DEPRECATION")
+            window.decorView.systemUiVisibility = (
+                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+        }
     }
 }
