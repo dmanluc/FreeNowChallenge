@@ -3,6 +3,7 @@ plugins {
     kotlin("android")
     id("kotlin-parcelize")
     kotlin("kapt")
+    id("dagger.hilt.android.plugin")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id("androidx.navigation.safeargs.kotlin")
 }
@@ -59,6 +60,10 @@ android {
 
     testOptions {
         animationsDisabled = true
+    }
+
+    packagingOptions {
+        resources.excludes.add("META-INF/gradle/incremental.annotation.processors")
     }
 }
 

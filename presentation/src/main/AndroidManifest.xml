@@ -4,7 +4,7 @@
 
     <application android:theme="@style/Theme.FreeNowChallenge">
         <activity
-            android:name=".MapsActivity"
+            android:name=".feature.vehiclesmap.VehiclesMapActivity"
             android:exported="true"
             android:label="@string/title_activity_maps"
             android:launchMode="singleTask"

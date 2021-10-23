@@ -1,54 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    style="@style/RoundTopCornersBottomSheet"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:behavior_hideable="false"
-    app:behavior_peekHeight="168dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/bottomSheet"
+    style="@style/RoundTopCornersBottomSheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
     android:orientation="vertical"
-
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="24dp"
+    app:behavior_fitToContents="false"
+    app:behavior_halfExpandedRatio="0.3"
+    app:behavior_saveFlags="all"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="HELLO"
-        android:textSize="40sp"
-        android:gravity="center"
-        android:layout_margin="16dp"/>
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="8dp"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:src="@drawable/round_rect_shape"
+        tools:ignore="ContentDescription" />
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/vehiclesList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="HELLO"
-        android:textSize="40sp"
-        android:gravity="center"
-        android:layout_margin="16dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="HELLO"
-        android:textSize="40sp"
-        android:gravity="center"
-        android:layout_margin="16dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="HELLO"
-        android:textSize="40sp"
-        android:gravity="center"
-        android:layout_margin="16dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="HELLO"
-        android:textSize="40sp"
-        android:gravity="center"
-        android:layout_margin="16dp"/>
+        android:layout_height="match_parent"
+        android:nestedScrollingEnabled="false"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:spanCount="2"
+        tools:itemCount="20"
+        tools:listitem="@layout/item_vehicle_list" />
 
 </LinearLayout>

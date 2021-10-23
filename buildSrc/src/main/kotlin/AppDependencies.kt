@@ -26,14 +26,19 @@ object AppDependencies {
     private val roomRuntime = "androidx.room:room-runtime:${Versions.room}"
     private val roomKapt = "androidx.room:room-compiler:${Versions.room}"
     private val roomKtx = "androidx.room:room-ktx:${Versions.room}"
+    private val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
+    private val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
     private val swipeRefreshLayout =
         "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipeRefreshLayout}"
+    private val maps = "com.google.android.gms:play-services-maps:${Versions.maps}"
 
     //Frameworks
+    private val javaxInject = "javax.inject:javax.inject:${Versions.javaxInject}"
     private val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
-    private val retrofitGsonConverter =
-        "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
-    private val gson = "com.google.code.gson:gson:${Versions.gson}"
+    private val retrofitMoshiConverter =
+        "com.squareup.retrofit2:converter-moshi:${Versions.retrofit}"
+    private val moshiKotlin = "com.squareup.moshi:moshi-kotlin:${Versions.moshi}"
+    private val moshiKotlinCodegen = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.moshi}"
     private val coroutinesCore =
         "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
     private val coroutinesAndroid =
@@ -42,7 +47,7 @@ object AppDependencies {
         "com.squareup.okhttp3:logging-interceptor:${Versions.httpLoggingInterceptor}"
 
 
-    private val arrowCore = "io.arrow-kt:arrow-core-data:${Versions.arrowCore}"
+    private val arrowCore = "io.arrow-kt:arrow-core:${Versions.arrowCore}"
     private val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
     private val glideCompilerKapt = "com.github.bumptech.glide:compiler:${Versions.glide}"
     private val lottie = "com.airbnb.android:lottie:${Versions.lottie}"
@@ -83,9 +88,12 @@ object AppDependencies {
         add(navigationUiKtx)
         add(roomRuntime)
         add(roomKtx)
+        add(hilt)
+        add(hiltCompiler)
+        add(maps)
         add(retrofit)
-        add(retrofitGsonConverter)
-        add(gson)
+        add(retrofitMoshiConverter)
+        add(moshiKotlin)
         add(coroutinesAndroid)
         add(httpLoggingInterceptor)
         add(arrowCore)
@@ -115,18 +123,22 @@ object AppDependencies {
 
     val kaptLibraries = arrayListOf<String>().apply {
         add(roomKapt)
+        add(hiltCompiler)
         add(glideCompilerKapt)
+        add(moshiKotlinCodegen)
     }
 
     val domainLibraries = arrayListOf<String>().apply {
-        kotlinStdLib
-        coroutinesCore
+        add(kotlinStdLib)
+        add(javaxInject)
+        add(coroutinesCore)
+        add(arrowCore)
     }
 
     val domainTestLibraries = arrayListOf<String>().apply {
-        kotlinJunit
-        junit
-        kotlinCoroutinesTest
+        add(kotlinJunit)
+        add(junit)
+        add(kotlinCoroutinesTest)
     }
 }
 

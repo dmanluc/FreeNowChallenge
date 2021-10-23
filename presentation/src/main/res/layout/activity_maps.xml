@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-<androidx.fragment.app.FragmentContainerView
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
+<dev.dmanluc.freenowchallenge.presentation.feature.vehiclesmap.TouchInterceptLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/interceptorLayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="160dp"
-    tools:context=".MapsActivity" />
+    android:layout_height="match_parent">
 
-<include layout="@layout/bottom_sheet_poi"/>
+    <androidx.fragment.app.FragmentContainerView xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        tools:context=".feature.vehiclesmap.VehiclesMapActivity" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <include
+        android:id="@+id/bottomSheetView"
+        layout="@layout/bottom_sheet_poi" />
+
+</dev.dmanluc.freenowchallenge.presentation.feature.vehiclesmap.TouchInterceptLayout>

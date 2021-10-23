@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     kotlin("android")
+    kotlin("kapt")
 }
 
 android {
@@ -29,6 +30,11 @@ android {
         }
     }
 
+    val baseUrl = (project.property("POI_API_BASE_URL") as? String).orEmpty()
+    buildTypes.forEach {
+        it.buildConfigField("String", "BASE_URL", baseUrl)
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -38,12 +44,6 @@ android {
 dependencies {
     api(project(":domain"))
 
-    implementation("androidx.core:core-ktx:1.6.0")
-    implementation("androidx.appcompat:appcompat:1.3.1")
-    implementation("com.google.android.material:material:1.4.0")
-    implementation("com.google.android.gms:play-services-maps:17.0.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.1")
-    testImplementation("junit:junit:4.+")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    implementation(AppDependencies.appLibraries)
+    kapt(AppDependencies.kaptLibraries)
 }
