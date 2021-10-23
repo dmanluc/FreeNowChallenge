@@ -19,6 +19,7 @@ object Versions {
     val swipeRefreshLayout = "1.1.0"
     val hilt = "2.38.1"
     val maps = "17.0.0"
+    val splash = "1.0.0-alpha02"
 
     //Frameworks
     val javaxInject = "1"

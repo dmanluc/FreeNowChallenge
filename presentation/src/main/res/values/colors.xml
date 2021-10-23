@@ -8,6 +8,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="system_ui_scrim_light">#E3ffffff</color>
-    <color name="system_ui_scrim_dark">#C3000000</color>
+    <color name="light_gray">#E3E6E8</color>
 </resources>

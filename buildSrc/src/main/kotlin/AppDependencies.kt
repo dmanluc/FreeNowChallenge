@@ -31,6 +31,7 @@ object AppDependencies {
     private val swipeRefreshLayout =
         "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipeRefreshLayout}"
     private val maps = "com.google.android.gms:play-services-maps:${Versions.maps}"
+    private val splash = "androidx.core:core-splashscreen:${Versions.splash}"
 
     //Frameworks
     private val javaxInject = "javax.inject:javax.inject:${Versions.javaxInject}"
@@ -91,6 +92,7 @@ object AppDependencies {
         add(hilt)
         add(hiltCompiler)
         add(maps)
+        add(splash)
         add(retrofit)
         add(retrofitMoshiConverter)
         add(moshiKotlin)

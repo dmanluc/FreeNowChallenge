@@ -11,4 +11,11 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="Theme.AppSplash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/light_gray</item>
+        <item name="windowSplashScreenIconBackgroundColor">#F2040A</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_freenow_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.FreeNowChallenge</item>
+    </style>
 </resources>

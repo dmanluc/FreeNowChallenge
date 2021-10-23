@@ -3,9 +3,11 @@ package dev.dmanluc.freenowchallenge.presentation.feature.vehiclesmap
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnticipateInterpolator
 import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.updateLayoutParams
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -42,8 +44,35 @@ class VehiclesMapActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(binding.root)
+        configureSplashAnimation(savedInstanceState)
+    }
 
+    private fun configureSplashAnimation(savedInstanceState: Bundle?) {
+        val splashWasDisplayed = savedInstanceState != null
+        if (!splashWasDisplayed) {
+            val splashScreen = installSplashScreen()
+            splashScreen.setOnExitAnimationListener { splashScreenViewProvider ->
+                // Get logo and start a fade out animation
+                splashScreenViewProvider.view
+                    .animate()
+                    .setDuration(300.toLong())
+                    .alpha(0f)
+                    .withEndAction {
+                        // After the fade out, remove the
+                        // splash and set content view
+                        splashScreenViewProvider.remove()
+                        setContentView(binding.root)
+                        setupUi()
+                    }.start()
+            }
+        } else {
+            setTheme(R.style.Theme_FreeNowChallenge)
+            setContentView(binding.root)
+            setupUi()
+        }
+    }
+
+    private fun setupUi() {
         configureRecyclerView()
 
         //makeStatusBarTransparent()
@@ -58,7 +87,6 @@ class VehiclesMapActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun configureRecyclerView() {
         binding.bottomSheetView.vehiclesList.adapter = vehiclesAdapter
     }
-
 
     /**
      * Manipulates the map once available.

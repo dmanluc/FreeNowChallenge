@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="dev.dmanluc.freenowchallenge.presentation">
 
-    <application android:theme="@style/Theme.FreeNowChallenge">
+    <application android:theme="@style/Theme.AppSplash">
         <activity
             android:name=".feature.vehiclesmap.VehiclesMapActivity"
             android:exported="true"
