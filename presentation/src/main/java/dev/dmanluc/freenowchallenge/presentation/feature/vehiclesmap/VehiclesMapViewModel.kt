@@ -12,6 +12,8 @@ import dev.dmanluc.freenowchallenge.domain.model.MapCoordinate
 import dev.dmanluc.freenowchallenge.domain.model.Vehicle
 import dev.dmanluc.freenowchallenge.domain.usecase.GetVehiclesUseCase
 import dev.dmanluc.freenowchallenge.presentation.di.DispatcherProvider
+import dev.dmanluc.freenowchallenge.presentation.extensions.toUiModel
+import dev.dmanluc.freenowchallenge.presentation.model.VehicleItem
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,8 +23,8 @@ class VehiclesMapViewModel @Inject constructor(
     private val dispatcherProvider: DispatcherProvider
 ) : ViewModel() {
 
-    private val mutableVehiclesLiveData = MutableLiveData<List<Vehicle>>()
-    val vehiclesLiveData: LiveData<List<Vehicle>> get() = mutableVehiclesLiveData
+    private val mutableVehiclesLiveData = MutableLiveData<List<VehicleItem>>()
+    val vehiclesLiveData: LiveData<List<VehicleItem>> get() = mutableVehiclesLiveData
 
     companion object {
         val mapBounds = LatLngBounds(
@@ -50,7 +52,7 @@ class VehiclesMapViewModel @Inject constructor(
             )
                 .fold(
                     ifRight = { vehicleList ->
-                        mutableVehiclesLiveData.value = vehicleList
+                        mutableVehiclesLiveData.value = vehicleList.map { it.toUiModel() }
                     },
                     ifLeft = { throwableError ->
                         println(throwableError)

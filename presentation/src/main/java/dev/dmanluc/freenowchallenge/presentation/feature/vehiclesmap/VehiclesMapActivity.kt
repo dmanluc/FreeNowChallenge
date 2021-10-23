@@ -1,15 +1,11 @@
 package dev.dmanluc.freenowchallenge.presentation.feature.vehiclesmap
 
 import android.annotation.SuppressLint
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -22,10 +18,12 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_DRAGGING
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_SETTLING
 import dagger.hilt.android.AndroidEntryPoint
-import dev.dmanluc.freenowchallenge.domain.model.Vehicle
 import dev.dmanluc.freenowchallenge.presentation.R
 import dev.dmanluc.freenowchallenge.presentation.databinding.ActivityMapsBinding
-import dev.dmanluc.freenowchallenge.presentation.extensions.*
+import dev.dmanluc.freenowchallenge.presentation.extensions.bitmapDescriptorFromVector
+import dev.dmanluc.freenowchallenge.presentation.extensions.dpToPx
+import dev.dmanluc.freenowchallenge.presentation.extensions.viewBinding
+import dev.dmanluc.freenowchallenge.presentation.model.VehicleItem
 import kotlin.math.roundToInt
 
 @AndroidEntryPoint
@@ -50,7 +48,6 @@ class VehiclesMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         //makeStatusBarTransparent()
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
@@ -62,12 +59,6 @@ class VehiclesMapActivity : AppCompatActivity(), OnMapReadyCallback {
         binding.bottomSheetView.vehiclesList.adapter = vehiclesAdapter
     }
 
-    private fun resizeMapByBottomSheetOffset(offset: Float) {
-        val maxHeightMap = binding.root.height - bottomSheetBehavior.peekHeight + 8.dpToPx
-        binding.map.updateLayoutParams {
-            height = ((1 - offset) * maxHeightMap).roundToInt()
-        }
-    }
 
     /**
      * Manipulates the map once available.
@@ -91,8 +82,44 @@ class VehiclesMapActivity : AppCompatActivity(), OnMapReadyCallback {
             animateCamera(CameraUpdateFactory.newCameraPosition(centerMapPosition))
         }
 
+        configureBottomSheet()
+
+        setupVehiclesObserver()
+    }
+
+    private fun setupVehiclesObserver() {
+        viewModel.vehiclesLiveData.observe(this) { vehicleList ->
+            vehiclesAdapter.setItems(vehicleList)
+            vehicleList.forEach { item ->
+                addVehicleMapMarker(item)
+            }
+        }
+    }
+
+    private fun addVehicleMapMarker(item: VehicleItem) {
+        val mapMarkerOptions = MarkerOptions()
+            .title(item.fleetType.description)
+            .snippet(item.id.toString())
+            .position(item.mapLatLng)
+            .also {
+                if (item.iconResource != null) {
+                    it.icon(
+                        bitmapDescriptorFromVector(
+                            item.iconResource,
+                            sizeInPx = 48.dpToPx
+                        )
+                    )
+                    it.rotation(item.mapBearing.toFloat())
+                }
+            }
+
+        map.addMarker(mapMarkerOptions)
+    }
+
+    private fun configureBottomSheet() {
         bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheetView.bottomSheet)
-        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {}
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
@@ -104,34 +131,27 @@ class VehiclesMapActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
             }
         })
-
-        binding.interceptorLayout.apply {
-            this.bottomSheetBehavior = this@VehiclesMapActivity.bottomSheetBehavior
-            viewToIntercept = binding.bottomSheetView.vehiclesList
-        }
-
-        viewModel.vehiclesLiveData.observe(this) { vehicleList ->
-            vehiclesAdapter.setItems(vehicleList)
-            vehicleList.forEach {
-                map.addMarker(MarkerOptions()
-                    .title(it.fleetType.name)
-                    .snippet(it.id.toString())
-                    .position(it.getMapLocation()))
-            }
-        }
     }
 
-    private fun onVehicleClicked(vehicle: Vehicle) {
+    private fun onVehicleClicked(vehicle: VehicleItem) {
         setBottomSheetVisibility(false)
-        centerZoomAt(map, vehicle.getMapLocation())
+        centerZoomAt(map, vehicle.mapLatLng)
     }
 
     private fun centerZoomAt(googleMap: GoogleMap, coordinate: LatLng, zoomLevel: Int = 17) {
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinate, zoomLevel.toFloat()))
     }
 
+    private fun resizeMapByBottomSheetOffset(offset: Float) {
+        val maxHeightMap = binding.root.height - bottomSheetBehavior.peekHeight + 8.dpToPx
+        binding.map.updateLayoutParams {
+            height = ((1 - offset) * maxHeightMap).roundToInt()
+        }
+    }
+
     private fun setBottomSheetVisibility(isVisible: Boolean) {
-        val updatedState = if (isVisible) BottomSheetBehavior.STATE_EXPANDED else BottomSheetBehavior.STATE_HALF_EXPANDED
+        val updatedState =
+            if (isVisible) BottomSheetBehavior.STATE_EXPANDED else BottomSheetBehavior.STATE_HALF_EXPANDED
         bottomSheetBehavior.state = updatedState
     }
 

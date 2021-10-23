@@ -1,17 +1,16 @@
 package dev.dmanluc.freenowchallenge.presentation.feature.vehiclesmap
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import dev.dmanluc.freenowchallenge.domain.model.Vehicle
 import dev.dmanluc.freenowchallenge.presentation.databinding.ItemVehicleListBinding
+import dev.dmanluc.freenowchallenge.presentation.model.VehicleItem
 
 class VehicleListAdapter(
-    private val onClickVehicle: ((Vehicle) -> Unit) = {}
+    private val onClickVehicle: ((VehicleItem) -> Unit) = {}
 ) : RecyclerView.Adapter<VehicleItemViewHolder>() {
 
-    private val items: MutableList<Vehicle> = mutableListOf()
+    private val items: MutableList<VehicleItem> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VehicleItemViewHolder {
         return VehicleItemViewHolder(
@@ -29,7 +28,7 @@ class VehicleListAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    fun setItems(vehicleList: List<Vehicle>) {
+    fun setItems(vehicleList: List<VehicleItem>) {
         items.clear()
         items.addAll(vehicleList)
 
