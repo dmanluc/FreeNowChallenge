@@ -5,7 +5,7 @@ import dev.dmanluc.freenowchallenge.domain.model.FleetType
 import dev.dmanluc.freenowchallenge.domain.model.MapCoordinate
 import dev.dmanluc.freenowchallenge.domain.model.Vehicle
 
-fun VehiclePoi.toDomain(): Vehicle = Vehicle(
+fun VehiclePoi.toDomainModel(): Vehicle = Vehicle(
     id = id ?: 0,
     mapCoordinate = MapCoordinate(Pair(coordinate?.latitude ?: 0.0, coordinate?.longitude ?: 0.0)),
     fleetType = FleetType.valueOf(fleetType?.uppercase().orEmpty()),
