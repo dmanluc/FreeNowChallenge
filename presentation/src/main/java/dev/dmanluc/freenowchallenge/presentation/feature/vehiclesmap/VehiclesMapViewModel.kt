@@ -1,9 +1,6 @@
 package dev.dmanluc.freenowchallenge.presentation.feature.vehiclesmap
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,20 +10,21 @@ import dev.dmanluc.freenowchallenge.domain.model.Vehicle
 import dev.dmanluc.freenowchallenge.domain.usecase.GetVehiclesUseCase
 import dev.dmanluc.freenowchallenge.presentation.di.DispatcherProvider
 import dev.dmanluc.freenowchallenge.presentation.extensions.toUiModel
-import dev.dmanluc.freenowchallenge.presentation.model.VehicleItem
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class VehiclesMapViewModel @Inject constructor(
     private val getVehiclesUseCase: GetVehiclesUseCase,
-    private val dispatcherProvider: DispatcherProvider
+    private val dispatcherProvider: DispatcherProvider,
+    private val stateHandle: SavedStateHandle,
 ) : ViewModel() {
 
-    private val mutableVehiclesLiveData = MutableLiveData<List<VehicleItem>>()
-    val vehiclesLiveData: LiveData<List<VehicleItem>> get() = mutableVehiclesLiveData
+    private val mutableVehiclesStateLiveData = MutableLiveData<VehicleMapViewState>(stateHandle[STATE_KEY])
+    val vehiclesStateLiveData: LiveData<VehicleMapViewState> get() = mutableVehiclesStateLiveData
 
     companion object {
+        private const val STATE_KEY = "savedVehicleMapState"
         val mapBounds = LatLngBounds(
             LatLng(53.394655, 9.757589),
             LatLng(53.694865, 10.099891)
@@ -40,6 +38,8 @@ class VehiclesMapViewModel @Inject constructor(
             val secondBoundCoordinate =
                 MapCoordinate(Pair(bounds.southwest.latitude, bounds.northeast.longitude))
 
+            mutableVehiclesStateLiveData.value = VehicleMapViewState.FirstLoading
+
             getVehiclesUseCase(
                 GetVehiclesUseCase.Params(
                     MapBounds(
@@ -49,16 +49,30 @@ class VehiclesMapViewModel @Inject constructor(
                         )
                     )
                 )
+            ).fold(
+                ifRight = ::handleSuccessVehiclesLoadedResult,
+                ifLeft = ::handleErrorVehiclesLoadedResult
             )
-                .fold(
-                    ifRight = { vehicleList ->
-                        mutableVehiclesLiveData.value = vehicleList.map { it.toUiModel() }
-                    },
-                    ifLeft = { throwableError ->
-                        println(throwableError)
-                    }
-                )
         }
+    }
+
+    private fun handleSuccessVehiclesLoadedResult(vehicleList: List<Vehicle>) {
+        if (vehicleList.isEmpty()) {
+            applyAndSaveState(VehicleMapViewState.EmptyVehiclesLoaded)
+            return
+        }
+
+        val vehicleViewItems = vehicleList.map { it.toUiModel() }
+        applyAndSaveState(VehicleMapViewState.VehiclesLoaded(vehicleViewItems))
+    }
+
+    private fun handleErrorVehiclesLoadedResult(error: Throwable) {
+        applyAndSaveState(VehicleMapViewState.VehiclesLoadedError(error))
+    }
+
+    private fun applyAndSaveState(state: VehicleMapViewState) {
+        mutableVehiclesStateLiveData.value = state
+        stateHandle[STATE_KEY] = state
     }
 
 }

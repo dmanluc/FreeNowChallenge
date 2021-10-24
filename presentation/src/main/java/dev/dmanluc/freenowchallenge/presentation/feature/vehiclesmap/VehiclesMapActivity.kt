@@ -3,7 +3,6 @@ package dev.dmanluc.freenowchallenge.presentation.feature.vehiclesmap
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import android.view.animation.AnticipateInterpolator
 import android.widget.LinearLayout
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -116,10 +115,17 @@ class VehiclesMapActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun setupVehiclesObserver() {
-        viewModel.vehiclesLiveData.observe(this) { vehicleList ->
-            vehiclesAdapter.setItems(vehicleList)
-            vehicleList.forEach { item ->
-                addVehicleMapMarker(item)
+        viewModel.vehiclesStateLiveData.observe(this) { vehiclesMapState ->
+            when (vehiclesMapState) {
+                VehicleMapViewState.FirstLoading -> {}
+                VehicleMapViewState.EmptyVehiclesLoaded -> {}
+                is VehicleMapViewState.VehiclesLoaded -> {
+                    vehiclesAdapter.setItems(vehiclesMapState.vehicleItemList)
+                    vehiclesMapState.vehicleItemList.forEach { item ->
+                        addVehicleMapMarker(item)
+                    }
+                }
+                is VehicleMapViewState.VehiclesLoadedError -> {}
             }
         }
     }
