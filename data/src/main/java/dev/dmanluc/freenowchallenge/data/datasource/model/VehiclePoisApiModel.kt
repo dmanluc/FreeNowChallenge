@@ -4,17 +4,17 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class VehiclePoisResponse(
+data class VehiclePoisApiModel(
     @Json(name = "poiList")
-    val vehiclePoiList: List<VehiclePoi> = emptyList()
+    val vehiclePoiList: List<VehiclePoiApiModel> = emptyList()
 )
 
 @JsonClass(generateAdapter = true)
-data class VehiclePoi(
+data class VehiclePoiApiModel(
     @Json(name = "id")
     val id: Int?,
     @Json(name = "coordinate")
-    val coordinate: VehiclePoiCoordinate?,
+    val coordinate: VehiclePoiCoordinateApiModel?,
     @Json(name = "fleetType")
     val fleetType: String?,
     @Json(name = "heading")
@@ -22,7 +22,7 @@ data class VehiclePoi(
 )
 
 @JsonClass(generateAdapter = true)
-data class VehiclePoiCoordinate(
+data class VehiclePoiCoordinateApiModel(
     @Json(name = "latitude")
     val latitude: Double?,
     @Json(name = "longitude")

@@ -1,6 +1,6 @@
 package dev.dmanluc.freenowchallenge.data.datasource.api
 
-import dev.dmanluc.freenowchallenge.data.datasource.model.VehiclePoisResponse
+import dev.dmanluc.freenowchallenge.data.datasource.model.VehiclePoisApiModel
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -19,6 +19,6 @@ interface PoiApi {
         @Query("p1Lon") firstBoundLongitude: Double,
         @Query("p2Lat") lastBoundLatitude: Double,
         @Query("p2Lon") lastBoundLongitude: Double
-    ): VehiclePoisResponse
+    ): VehiclePoisApiModel
 
 }

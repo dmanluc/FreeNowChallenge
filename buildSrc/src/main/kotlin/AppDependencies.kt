@@ -73,7 +73,8 @@ object AppDependencies {
     private val espressoIdlingResource =
         "androidx.test.espresso:espresso-idling-resource:${Versions.espresso}"
     private val espressoIntents = "androidx.test.espresso:espresso-intents:${Versions.espresso}"
-    private val kotestArrow = "io.kotlintest:kotlintest-assertions-arrow:${Versions.kotestArrow}"
+    private val kotestArrow = "io.kotest.extensions:kotest-assertions-arrow:${Versions.kotestArrow}"
+    private val kotestCore = "io.kotest:kotest-assertions-core:${Versions.kotestCore}"
 
     val appLibraries = arrayListOf<String>().apply {
         add(kotlinStdLib)
@@ -118,8 +119,10 @@ object AppDependencies {
 
     val testLibraries = arrayListOf<String>().apply {
         add(kotlinCoroutinesTest)
+        add(mockk)
         add(junit)
         add(mockWebServer)
+        add(kotestCore)
         add(kotestArrow)
     }
 

@@ -46,4 +46,5 @@ dependencies {
 
     implementation(AppDependencies.appLibraries)
     kapt(AppDependencies.kaptLibraries)
+    testImplementation(AppDependencies.testLibraries)
 }

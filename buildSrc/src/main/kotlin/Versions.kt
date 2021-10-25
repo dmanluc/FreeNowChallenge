@@ -32,7 +32,7 @@ object Versions {
     val lottie = "3.6.1"
 
     // Testing
-    val kotlinCoroutinesTest = "1.4.2"
+    val kotlinCoroutinesTest = "1.5.1"
     val junit = "4.13.1"
     val espresso = "3.3.0"
     val androidXTestRunner = "1.3.0"
@@ -41,5 +41,6 @@ object Versions {
     val androidXFragmentTesting = "1.3.0"
     val mockk = "1.12.0"
     val mockWebServer = "2.7.5"
-    val kotestArrow = "3.4.2"
+    val kotestCore = "4.2.0"
+    val kotestArrow = "1.0.3"
 }

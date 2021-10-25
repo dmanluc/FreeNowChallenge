@@ -1,21 +1,23 @@
 package dev.dmanluc.freenowchallenge.data.datasource.remote
 
 import dev.dmanluc.freenowchallenge.data.datasource.api.PoiApi
-import dev.dmanluc.freenowchallenge.data.datasource.model.VehiclePoi
-import dev.dmanluc.freenowchallenge.domain.model.MapBounds
+import dev.dmanluc.freenowchallenge.data.datasource.model.VehicleDataModel
+import dev.dmanluc.freenowchallenge.data.mappers.toApi
+import dev.dmanluc.freenowchallenge.data.mappers.toData
+import dev.dmanluc.freenowchallenge.data.repository.model.VehicleBoundsSearchRequestDataModel
 import javax.inject.Inject
 
 class VehiclesRemoteDataSourceImpl @Inject constructor(
     private val api: PoiApi
 ) : VehiclesRemoteDataSource {
 
-    override suspend fun getVehiclePois(mapBounds: MapBounds): List<VehiclePoi> {
+    override suspend fun getVehiclePois(mapBounds: VehicleBoundsSearchRequestDataModel): List<VehicleDataModel> {
         return api.getVehiclePois(
-            mapBounds.bounds.first.latLng.first,
-            mapBounds.bounds.first.latLng.second,
-            mapBounds.bounds.second.latLng.first,
-            mapBounds.bounds.second.latLng.second,
-        ).vehiclePoiList
+            mapBounds.toApi().p1Lat,
+            mapBounds.toApi().p1Lon,
+            mapBounds.toApi().p2Lat,
+            mapBounds.toApi().p2Lon
+        ).toData()
     }
 
 }
