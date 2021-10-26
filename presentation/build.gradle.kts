@@ -24,14 +24,6 @@ android {
         java.srcDir("src/test/kotlin")
     }
 
-    sourceSets.getByName("androidTest") {
-        java.srcDir("src/androidTest/java")
-        java.srcDir("src/androidTest/kotlin")
-        resources {
-            srcDirs("src/test/resources")
-        }
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -40,13 +32,16 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+    hilt {
+        enableAggregatingTask = true
+    }
 }
 
 dependencies {
     api(project(":domain"))
 
-    implementation(AppDependencies.appLibraries)
-    kapt(AppDependencies.kaptLibraries)
+    implementation(AppDependencies.presentationImplLibraries)
+    kapt(AppDependencies.presentationKaptLibraries)
     testImplementation(AppDependencies.testLibraries)
-    androidTestImplementation(AppDependencies.androidTestLibraries)
 }

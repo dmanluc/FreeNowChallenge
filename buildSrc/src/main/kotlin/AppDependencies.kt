@@ -6,6 +6,7 @@ object AppDependencies {
 
     //Android
     private val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
+    private val activityKtx = "androidx.activity:activity-ktx:${Versions.activityKtx}"
     private val coreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"
     private val constraintLayout =
         "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
@@ -19,17 +20,8 @@ object AppDependencies {
         "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.viewModelKtx}"
     private val liveDataKtx =
         "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.liveDataKtx}"
-    private val navigationFragmentKtx =
-        "androidx.navigation:navigation-fragment-ktx:${Versions.navigationFragmentKtx}"
-    private val navigationUiKtx =
-        "androidx.navigation:navigation-ui-ktx:${Versions.navigationUiKtx}"
-    private val roomRuntime = "androidx.room:room-runtime:${Versions.room}"
-    private val roomKapt = "androidx.room:room-compiler:${Versions.room}"
-    private val roomKtx = "androidx.room:room-ktx:${Versions.room}"
     private val hilt = "com.google.dagger:hilt-android:${Versions.hilt}"
     private val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
-    private val swipeRefreshLayout =
-        "androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipeRefreshLayout}"
     private val maps = "com.google.android.gms:play-services-maps:${Versions.maps}"
     private val splash = "androidx.core:core-splashscreen:${Versions.splash}"
 
@@ -46,50 +38,37 @@ object AppDependencies {
         "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
     private val httpLoggingInterceptor =
         "com.squareup.okhttp3:logging-interceptor:${Versions.httpLoggingInterceptor}"
-
-
     private val arrowCore = "io.arrow-kt:arrow-core:${Versions.arrowCore}"
-    private val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
-    private val glideCompilerKapt = "com.github.bumptech.glide:compiler:${Versions.glide}"
-    private val lottie = "com.airbnb.android:lottie:${Versions.lottie}"
 
     //Testing
     private val kotlinCoroutinesTest =
         "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutinesTest}"
     private val junit = "junit:junit:${Versions.junit}"
-    private val kotlinJunit = "org.jetbrains.kotlin:kotlin-test-junit:${Versions.kotlin}"
-    private val mockWebServer = "com.squareup.okhttp:mockwebserver:${Versions.mockWebServer}"
+    private val mockWebServer = "com.squareup.okhttp3:mockwebserver:${Versions.mockWebServer}"
     private val mockk = "io.mockk:mockk:${Versions.mockk}"
     private val androidXTestRunner = "androidx.test:runner:${Versions.androidXTestRunner}"
     private val androidXCoreTesting =
         "androidx.arch.core:core-testing:${Versions.androidXCoreTesting}"
     private val androidXJunitTesting = "androidx.test.ext:junit:${Versions.androidXJUnitTest}"
-
-    private val androidXFragmentTesting =
-        "androidx.fragment:fragment-testing:${Versions.androidXFragmentTesting}"
     private val mockkAndroid = "io.mockk:mockk-android:${Versions.mockk}"
     private val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso}"
     private val espressoContrib = "androidx.test.espresso:espresso-contrib:${Versions.espresso}"
-    private val espressoIdlingResource =
-        "androidx.test.espresso:espresso-idling-resource:${Versions.espresso}"
-    private val espressoIntents = "androidx.test.espresso:espresso-intents:${Versions.espresso}"
     private val kotestArrow = "io.kotest.extensions:kotest-assertions-arrow:${Versions.kotestArrow}"
     private val kotestCore = "io.kotest:kotest-assertions-core:${Versions.kotestCore}"
+    private val mockWebServerDispatcher = "pl.droidsonroids.testing:mockwebserver-path-dispatcher:${Versions.mockWebServerDispatcher}"
+    private val hiltTesting = "com.google.dagger:hilt-android-testing:${Versions.hilt}"
 
-    val appLibraries = arrayListOf<String>().apply {
+    val presentationImplLibraries = arrayListOf<String>().apply {
         add(kotlinStdLib)
         add(coreKtx)
         add(appcompat)
+        add(activityKtx)
         add(constraintLayout)
         add(materialDesign)
         add(lifecycleKtx)
         add(lifecycleJava8)
         add(viewModelKtx)
         add(liveDataKtx)
-        add(navigationFragmentKtx)
-        add(navigationUiKtx)
-        add(roomRuntime)
-        add(roomKtx)
         add(hilt)
         add(hiltCompiler)
         add(maps)
@@ -100,40 +79,27 @@ object AppDependencies {
         add(coroutinesAndroid)
         add(httpLoggingInterceptor)
         add(arrowCore)
-        add(glide)
-        add(lottie)
-        add(androidXTestRunner)
-        add(androidXCoreTesting)
-        add(androidXJunitTesting)
-        add(androidXFragmentTesting)
-        add(espressoCore)
-        add(espressoIdlingResource)
-        add(swipeRefreshLayout)
     }
 
-    val androidTestLibraries = arrayListOf<String>().apply {
-        add(mockkAndroid)
-        add(espressoContrib)
-        add(espressoIntents)
-    }
-
-    val testLibraries = arrayListOf<String>().apply {
-        add(kotlinCoroutinesTest)
-        add(mockk)
-        add(junit)
-        add(mockWebServer)
-        add(kotestCore)
-        add(kotestArrow)
+    val dataImplLibraries = arrayListOf<String>().apply {
+        add(hilt)
+        add(hiltCompiler)
+        add(retrofit)
+        add(retrofitMoshiConverter)
+        add(moshiKotlin)
+        add(coroutinesAndroid)
+        add(httpLoggingInterceptor)
+        add(arrowCore)
     }
 
     val kaptLibraries = arrayListOf<String>().apply {
-        add(roomKapt)
-        add(hiltCompiler)
-        add(glideCompilerKapt)
         add(moshiKotlinCodegen)
+        add(hiltCompiler)
     }
 
-    val domainLibraries = arrayListOf<String>().apply {
+    val dataKaptLibraries = kaptLibraries
+
+    val domainImplLibraries = arrayListOf<String>().apply {
         add(kotlinStdLib)
         add(javaxInject)
         add(coroutinesCore)
@@ -141,10 +107,43 @@ object AppDependencies {
     }
 
     val domainTestLibraries = arrayListOf<String>().apply {
-        add(kotlinJunit)
         add(junit)
         add(kotlinCoroutinesTest)
     }
+
+    val appImplLibraries = arrayListOf<String>().apply {
+        add(hilt)
+        add(hiltCompiler)
+        add(maps)
+    }
+
+    val appKaptLibraries = arrayListOf<String>().apply {
+        add(hiltCompiler)
+    }
+
+    val presentationKaptLibraries = appKaptLibraries
+
+    val androidTestLibraries = arrayListOf<String>().apply {
+        add(junit)
+        add(mockkAndroid)
+        add(espressoContrib)
+        add(mockWebServerDispatcher)
+        add(mockWebServer)
+        add(hiltTesting)
+        add(androidXTestRunner)
+        add(androidXCoreTesting)
+        add(androidXJunitTesting)
+        add(espressoCore)
+    }
+
+    val testLibraries = arrayListOf<String>().apply {
+        add(kotlinCoroutinesTest)
+        add(mockk)
+        add(junit)
+        add(kotestCore)
+        add(kotestArrow)
+    }
+
 }
 
 fun DependencyHandler.kapt(list: List<String>) {

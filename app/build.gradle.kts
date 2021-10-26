@@ -18,6 +18,7 @@ android {
         versionCode = AppConfig.versionCode
         versionName = AppConfig.versionName
 
+        testInstrumentationRunner = AppConfig.androidTestInstrumentation
         testInstrumentationRunnerArguments["clearPackageData"] = "true"
     }
 
@@ -65,6 +66,10 @@ android {
     packagingOptions {
         resources.excludes.add("META-INF/gradle/incremental.annotation.processors")
     }
+
+    hilt {
+        enableAggregatingTask = true
+    }
 }
 
 dependencies {
@@ -72,8 +77,12 @@ dependencies {
     implementation(project(":presentation"))
     implementation(project(":data"))
 
-    implementation(AppDependencies.appLibraries)
-    kapt(AppDependencies.kaptLibraries)
-    testImplementation(AppDependencies.testLibraries)
+    implementation(AppDependencies.appImplLibraries)
+    kapt(AppDependencies.appKaptLibraries)
     androidTestImplementation(AppDependencies.androidTestLibraries)
+
+    androidTestImplementation("com.adevinta.android:barista:4.2.0") {
+        exclude("group", "org.jetbrains.kotlin")
+    }
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.38.1")
 }

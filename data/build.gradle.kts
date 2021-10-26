@@ -22,14 +22,6 @@ android {
         java.srcDir("src/test/kotlin")
     }
 
-    sourceSets.getByName("androidTest") {
-        java.srcDir("src/androidTest/java")
-        java.srcDir("src/androidTest/kotlin")
-        resources {
-            srcDirs("src/test/resources")
-        }
-    }
-
     val baseUrl = (project.property("POI_API_BASE_URL") as? String).orEmpty()
     buildTypes.forEach {
         it.buildConfigField("String", "BASE_URL", baseUrl)
@@ -44,7 +36,7 @@ android {
 dependencies {
     api(project(":domain"))
 
-    implementation(AppDependencies.appLibraries)
-    kapt(AppDependencies.kaptLibraries)
+    implementation(AppDependencies.dataImplLibraries)
+    kapt(AppDependencies.dataKaptLibraries)
     testImplementation(AppDependencies.testLibraries)
 }

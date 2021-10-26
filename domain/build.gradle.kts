@@ -3,6 +3,6 @@ plugins {
 }
 
 dependencies {
-    implementation(AppDependencies.domainLibraries)
+    implementation(AppDependencies.domainImplLibraries)
     testImplementation(AppDependencies.domainTestLibraries)
 }
