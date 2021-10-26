@@ -1,6 +1,5 @@
 package dev.dmanluc.freenowchallenge.presentation.feature.vehiclesmap
 
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
@@ -28,7 +27,6 @@ class VehiclesMapViewModel @Inject constructor(
     val vehiclesStateLiveData: LiveData<VehicleMapViewState> get() = mutableVehiclesStateLiveData
 
     companion object {
-        @VisibleForTesting
         const val STATE_KEY = "savedVehicleMapState"
         val mapBounds = LatLngBounds(
             LatLng(53.394655, 9.757589),
