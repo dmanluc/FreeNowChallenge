@@ -5,6 +5,8 @@ import dev.dmanluc.freenowchallenge.data.datasource.remote.VehiclesRemoteDataSou
 import dev.dmanluc.freenowchallenge.data.mappers.toData
 import dev.dmanluc.freenowchallenge.data.mappers.toDomainModel
 import dev.dmanluc.freenowchallenge.data.utils.VehiclePoiApiModelFactory
+import dev.dmanluc.freenowchallenge.data.utils.createErrorResponse
+import dev.dmanluc.freenowchallenge.domain.model.DomainError
 import dev.dmanluc.freenowchallenge.domain.model.MapBounds
 import dev.dmanluc.freenowchallenge.domain.model.MapCoordinate
 import io.kotest.assertions.arrow.core.shouldBeLeft
@@ -17,6 +19,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
+import retrofit2.HttpException
+import java.io.IOException
 
 @ExperimentalCoroutinesApi
 class PoiRepositoryImplTest {
@@ -43,14 +47,38 @@ class PoiRepositoryImplTest {
     }
 
     @Test
-    fun `verify get vehicle POIs on error interaction`() = runBlockingTest {
+    fun `verify get vehicle POIs on http error interaction`() = runBlockingTest {
+        val requestBounds = MapBounds(Pair(MapCoordinate(Pair(50.0, 56.0)), MapCoordinate(Pair(56.0, 50.0))))
+        val errorException = HttpException(createErrorResponse(400, "Error"))
+        coEvery { remoteDataSource.getVehiclePois(any()) } throws errorException
+
+        val errorResult = SUT.getVehicles(requestBounds)
+
+        assertEquals(errorResult.shouldBeLeft(), DomainError.HttpError(400, "Error"))
+        coVerify(exactly = 1) { remoteDataSource.getVehiclePois(any()) }
+    }
+
+    @Test
+    fun `verify get vehicle POIs on network error interaction`() = runBlockingTest {
+        val requestBounds = MapBounds(Pair(MapCoordinate(Pair(50.0, 56.0)), MapCoordinate(Pair(56.0, 50.0))))
+        val errorException = IOException()
+        coEvery { remoteDataSource.getVehiclePois(any()) } throws errorException
+
+        val errorResult = SUT.getVehicles(requestBounds)
+
+        assertEquals(errorResult.shouldBeLeft(), DomainError.NetworkError(errorException))
+        coVerify(exactly = 1) { remoteDataSource.getVehiclePois(any()) }
+    }
+
+    @Test
+    fun `verify get vehicle POIs on unknown error interaction`() = runBlockingTest {
         val requestBounds = MapBounds(Pair(MapCoordinate(Pair(50.0, 56.0)), MapCoordinate(Pair(56.0, 50.0))))
         val errorException = Throwable()
         coEvery { remoteDataSource.getVehiclePois(any()) } throws errorException
 
         val errorResult = SUT.getVehicles(requestBounds)
 
-        assertEquals(errorResult.shouldBeLeft(), errorException)
+        assertEquals(errorResult.shouldBeLeft(), DomainError.UnknownError(errorException))
         coVerify(exactly = 1) { remoteDataSource.getVehiclePois(any()) }
     }
 }

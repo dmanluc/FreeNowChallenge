@@ -5,6 +5,7 @@ import dev.dmanluc.freenowchallenge.data.datasource.model.VehiclePoisApiModel
 import dev.dmanluc.freenowchallenge.data.mappers.toData
 import dev.dmanluc.freenowchallenge.data.repository.model.VehicleBoundsSearchRequestDataModel
 import dev.dmanluc.freenowchallenge.data.utils.VehiclePoiApiModelFactory
+import dev.dmanluc.freenowchallenge.data.utils.createErrorResponse
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -13,6 +14,8 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import retrofit2.HttpException
+import java.io.IOException
 
 @ExperimentalCoroutinesApi
 class VehiclesRemoteDataSourceImplTest {
@@ -35,6 +38,40 @@ class VehiclesRemoteDataSourceImplTest {
         val result = SUT.getVehiclePois(VehicleBoundsSearchRequestDataModel(requestBounds, requestBounds))
 
         assertEquals(vehiclePoisApiModel.toData(), result)
+        coVerify(exactly = 1) { poiApi.getVehiclePois(any(), any(), any(), any()) }
+    }
+
+    @Test
+    fun `verify get vehicle POIs on API http error exception`() = runBlockingTest {
+        val requestBounds = Pair(50.0, 56.0)
+        val errorException = HttpException(createErrorResponse(400, "Error"))
+        coEvery { poiApi.getVehiclePois(any(), any(), any(), any()) } throws errorException
+
+        var errorResult: Throwable? = null
+        try {
+            SUT.getVehiclePois(VehicleBoundsSearchRequestDataModel(requestBounds, requestBounds))
+        } catch (t: Throwable) {
+            errorResult = t
+        }
+
+        assertEquals(errorException, errorResult)
+        coVerify(exactly = 1) { poiApi.getVehiclePois(any(), any(), any(), any()) }
+    }
+
+    @Test
+    fun `verify get vehicle POIs on IO exception`() = runBlockingTest {
+        val requestBounds = Pair(50.0, 56.0)
+        val errorException = IOException()
+        coEvery { poiApi.getVehiclePois(any(), any(), any(), any()) } throws errorException
+
+        var errorResult: Throwable? = null
+        try {
+            SUT.getVehiclePois(VehicleBoundsSearchRequestDataModel(requestBounds, requestBounds))
+        } catch (t: Throwable) {
+            errorResult = t
+        }
+
+        assertEquals(errorException, errorResult)
         coVerify(exactly = 1) { poiApi.getVehiclePois(any(), any(), any(), any()) }
     }
 

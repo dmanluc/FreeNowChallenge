@@ -5,10 +5,13 @@ import arrow.core.right
 import dev.dmanluc.freenowchallenge.data.datasource.remote.VehiclesRemoteDataSource
 import dev.dmanluc.freenowchallenge.data.mappers.toDataModel
 import dev.dmanluc.freenowchallenge.data.mappers.toDomainModel
+import dev.dmanluc.freenowchallenge.domain.model.DomainError
 import dev.dmanluc.freenowchallenge.domain.model.DomainResult
 import dev.dmanluc.freenowchallenge.domain.model.MapBounds
 import dev.dmanluc.freenowchallenge.domain.model.Vehicle
 import dev.dmanluc.freenowchallenge.domain.repository.PoiRepository
+import retrofit2.HttpException
+import java.io.IOException
 import javax.inject.Inject
 
 class PoiRepositoryImpl @Inject constructor(
@@ -19,8 +22,26 @@ class PoiRepositoryImpl @Inject constructor(
         return try {
             vehiclesRemoteDataSource.getVehiclePois(mapBounds.toDataModel()).map { it.toDomainModel() }.right()
         } catch (t: Throwable) {
-            t.left()
+            handleException(t).left()
         }
     }
+
+    private fun handleException(throwable: Throwable): DomainError {
+        return when (throwable) {
+            is HttpException -> {
+                val code = throwable.code()
+                val errorResponseMessage = obtainErrorMessage(throwable)
+                DomainError.HttpError(code, errorResponseMessage)
+            }
+            is IOException -> {
+                DomainError.NetworkError(throwable)
+            }
+            else -> {
+                DomainError.UnknownError(throwable)
+            }
+        }
+    }
+
+    private fun obtainErrorMessage(throwable: HttpException) = throwable.response()?.errorBody()?.string().orEmpty()
 
 }
