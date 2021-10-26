@@ -7,8 +7,10 @@ import arrow.core.left
 import arrow.core.right
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
+import dev.dmanluc.freenowchallenge.domain.model.DomainError
 import dev.dmanluc.freenowchallenge.domain.model.Vehicle
 import dev.dmanluc.freenowchallenge.domain.usecase.GetVehiclesUseCase
+import dev.dmanluc.freenowchallenge.presentation.R
 import dev.dmanluc.freenowchallenge.presentation.di.DispatcherProvider
 import dev.dmanluc.freenowchallenge.presentation.extensions.toUiModel
 import dev.dmanluc.freenowchallenge.presentation.feature.vehiclesmap.VehiclesMapViewModel.Companion.STATE_KEY
@@ -93,7 +95,8 @@ class VehiclesMapViewModelTest {
 
                 verify(exactly = 1) {
                     viewStateObserver.onChanged(VehicleMapViewState.FirstLoading)
-                    val emptyVehiclesLoadedViewState = VehicleMapViewState.EmptyVehiclesLoaded
+                    val emptyVehiclesLoadedViewState =
+                        VehicleMapViewState.EmptyVehiclesLoaded(R.string.empty_vehicle_pois_view_text)
                     viewStateObserver.onChanged(emptyVehiclesLoadedViewState)
                     savedStateHandle.set(STATE_KEY, emptyVehiclesLoadedViewState)
                 }
@@ -101,13 +104,59 @@ class VehiclesMapViewModelTest {
         }
 
     @Test
+    fun `verify get vehicles on error interaction and return domain http error exception`() =
+        runBlockingTest {
+            val domainError = DomainError.HttpError(400, "Error retrieving vehicles")
+            val viewStateObserver = mockk<Observer<VehicleMapViewState>>(relaxed = true)
+
+            coEvery {
+                getVehiclesUseCase.invoke(any())
+            } returns domainError.left()
+
+            SUT.vehiclesStateLiveData.observeForTesting(viewStateObserver) {
+                SUT.getVehiclesFromMapBounds(LatLngBounds(LatLng(50.0, 56.0), LatLng(58.0, 45.0)))
+
+                verify(exactly = 1) {
+                    viewStateObserver.onChanged(VehicleMapViewState.FirstLoading)
+                    val vehiclesLoadedErrorViewState =
+                        VehicleMapViewState.VehiclesLoadedError(domainError.body)
+                    viewStateObserver.onChanged(vehiclesLoadedErrorViewState)
+                    savedStateHandle.set(STATE_KEY, vehiclesLoadedErrorViewState)
+                }
+            }
+        }
+
+    @Test
+    fun `verify get vehicles on error interaction and return domain connectivity error`() =
+        runBlockingTest {
+            val domainError = DomainError.NetworkError(Throwable("Error retrieving vehicles"))
+            val viewStateObserver = mockk<Observer<VehicleMapViewState>>(relaxed = true)
+
+            coEvery {
+                getVehiclesUseCase.invoke(any())
+            } returns domainError.left()
+
+            SUT.vehiclesStateLiveData.observeForTesting(viewStateObserver) {
+                SUT.getVehiclesFromMapBounds(LatLngBounds(LatLng(50.0, 56.0), LatLng(58.0, 45.0)))
+
+                verify(exactly = 1) {
+                    viewStateObserver.onChanged(VehicleMapViewState.FirstLoading)
+                    val vehiclesLoadedErrorViewState =
+                        VehicleMapViewState.VehiclesLoadedConnectivityError(R.string.no_internet_connection_text)
+                    viewStateObserver.onChanged(vehiclesLoadedErrorViewState)
+                    savedStateHandle.set(STATE_KEY, vehiclesLoadedErrorViewState)
+                }
+            }
+        }
+
+    @Test
     fun `verify get vehicles on error interaction and return error exception`() = runBlockingTest {
-        val errorException = Throwable("Error retrieving vehicles")
+        val domainError = DomainError.UnknownError(Throwable("Error retrieving vehicles"))
         val viewStateObserver = mockk<Observer<VehicleMapViewState>>(relaxed = true)
 
         coEvery {
             getVehiclesUseCase.invoke(any())
-        } returns errorException.left()
+        } returns domainError.left()
 
         SUT.vehiclesStateLiveData.observeForTesting(viewStateObserver) {
             SUT.getVehiclesFromMapBounds(LatLngBounds(LatLng(50.0, 56.0), LatLng(58.0, 45.0)))
@@ -115,7 +164,7 @@ class VehiclesMapViewModelTest {
             verify(exactly = 1) {
                 viewStateObserver.onChanged(VehicleMapViewState.FirstLoading)
                 val vehiclesLoadedErrorViewState =
-                    VehicleMapViewState.VehiclesLoadedError(errorException)
+                    VehicleMapViewState.VehiclesLoadedError(domainError.throwable.message.orEmpty())
                 viewStateObserver.onChanged(vehiclesLoadedErrorViewState)
                 savedStateHandle.set(STATE_KEY, vehiclesLoadedErrorViewState)
             }

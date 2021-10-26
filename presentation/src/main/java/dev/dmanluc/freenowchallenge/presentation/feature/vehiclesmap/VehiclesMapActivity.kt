@@ -137,7 +137,7 @@ class VehiclesMapActivity : AppCompatActivity(), OnMapReadyCallback {
         vehiclesMapState.vehicleItemList.forEach { item ->
             addVehicleMapMarker(item)
         }
-        
+
         binding.bottomSheetView.dragIcon.visible()
         bottomSheetBehavior.isDraggable = true
     }
