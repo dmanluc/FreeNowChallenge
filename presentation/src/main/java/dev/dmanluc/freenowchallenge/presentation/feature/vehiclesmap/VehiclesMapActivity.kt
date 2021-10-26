@@ -1,6 +1,5 @@
 package dev.dmanluc.freenowchallenge.presentation.feature.vehiclesmap
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -8,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
 import androidx.core.view.updateLayoutParams
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -41,6 +41,7 @@ class VehiclesMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         configureSplashAnimation(savedInstanceState)
     }
@@ -50,14 +51,11 @@ class VehiclesMapActivity : AppCompatActivity(), OnMapReadyCallback {
         if (!splashWasDisplayed) {
             val splashScreen = installSplashScreen()
             splashScreen.setOnExitAnimationListener { splashScreenViewProvider ->
-                // Get logo and start a fade out animation
                 splashScreenViewProvider.view
                     .animate()
                     .setDuration(300.toLong())
                     .alpha(0f)
                     .withEndAction {
-                        // After the fade out, remove the
-                        // splash and set content view
                         splashScreenViewProvider.remove()
                         setContentView(binding.root)
                         setupUi()
@@ -73,15 +71,12 @@ class VehiclesMapActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun setupUi() {
         configureRecyclerView()
 
-        //makeStatusBarTransparent()
-
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
         fetchVehiclePois()
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private fun configureRecyclerView() {
         binding.bottomSheetView.vehiclesList.adapter = vehiclesAdapter
     }

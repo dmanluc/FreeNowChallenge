@@ -145,6 +145,8 @@ object AppDependencies {
         add(kotestArrow)
     }
 
+    val presentationTestLibraries = testLibraries.add(androidXCoreTesting)
+
 }
 
 fun DependencyHandler.kapt(list: List<String>) {

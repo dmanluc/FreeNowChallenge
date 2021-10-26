@@ -35,7 +35,7 @@
         android:paddingBottom="8dp"
         android:text="@string/retry_loading_action_text"
         android:textAllCaps="true"
-        android:textColor="@color/white"
+        android:textColor="@android:color/white"
         android:textSize="14sp"
         app:cornerRadius="6dp"
         app:layout_constraintBottom_toBottomOf="parent"

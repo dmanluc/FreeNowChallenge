@@ -14,7 +14,8 @@
         android:layout_height="64dp"
         android:src="@drawable/ic_taxi"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/vehicleName"
@@ -22,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:textAllCaps="true"
-        android:textColor="@color/black"
+        android:textColor="@android:color/black"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/vehicleId"
@@ -44,6 +45,5 @@
         app:layout_constraintStart_toStartOf="@id/vehicleName"
         app:layout_constraintTop_toBottomOf="@id/vehicleName"
         tools:text="1234" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
