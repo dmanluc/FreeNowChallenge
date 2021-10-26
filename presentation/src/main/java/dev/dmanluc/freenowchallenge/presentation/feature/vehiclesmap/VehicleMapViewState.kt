@@ -12,10 +12,16 @@ import kotlinx.parcelize.Parcelize
  *  Definition of a hierachy of possible states to be shown in the vehicle list screen
  *
  */
-sealed class VehicleMapViewState: Parcelable {
-    @Parcelize object FirstLoading : VehicleMapViewState()
-    @Parcelize data class EmptyVehiclesLoaded(@StringRes val messageResId: Int) : VehicleMapViewState()
-    @Parcelize data class VehiclesLoaded(val vehicleItemList: List<VehicleItem>) : VehicleMapViewState()
-    @Parcelize data class VehiclesLoadedError(val errorMessage: String) : VehicleMapViewState()
-    @Parcelize data class VehiclesLoadedConnectivityError(@StringRes val errorMessageResId: Int) : VehicleMapViewState()
+sealed class VehicleMapViewState : Parcelable {
+    @Parcelize
+    object FirstLoading : VehicleMapViewState()
+    @Parcelize
+    data class EmptyVehiclesLoaded(@StringRes val messageResId: Int) : VehicleMapViewState()
+    @Parcelize
+    data class VehiclesLoaded(val vehicleItemList: List<VehicleItem>) : VehicleMapViewState()
+    @Parcelize
+    data class VehiclesLoadedError(val errorMessage: String) : VehicleMapViewState()
+    @Parcelize
+    data class VehiclesLoadedConnectivityError(@StringRes val errorMessageResId: Int) :
+        VehicleMapViewState()
 }

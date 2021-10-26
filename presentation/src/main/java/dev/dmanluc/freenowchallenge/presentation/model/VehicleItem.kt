@@ -13,4 +13,4 @@ data class VehicleItem(
     val fleetType: FleetType,
     @DrawableRes val iconResource: Int? = null,
     val mapBearing: Double = 0.0
-): Parcelable
+) : Parcelable

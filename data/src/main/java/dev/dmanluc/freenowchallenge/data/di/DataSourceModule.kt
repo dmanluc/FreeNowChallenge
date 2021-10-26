@@ -9,7 +9,7 @@ import dev.dmanluc.freenowchallenge.data.datasource.remote.VehiclesRemoteDataSou
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class DataSourceModule{
+abstract class DataSourceModule {
 
     @Binds
     abstract fun bindVehicleRemoteDataSource(dataSourceImpl: VehiclesRemoteDataSourceImpl): VehiclesRemoteDataSource

@@ -124,7 +124,9 @@ class VehiclesMapActivity : AppCompatActivity(), OnMapReadyCallback {
                 is VehicleMapViewState.EmptyVehiclesLoaded -> handleErrorState(errorMessageResId = vehiclesMapState.messageResId)
                 is VehicleMapViewState.VehiclesLoaded -> handleVehiclesLoaded(vehiclesMapState)
                 is VehicleMapViewState.VehiclesLoadedError -> handleErrorState(errorMessage = vehiclesMapState.errorMessage)
-                is VehicleMapViewState.VehiclesLoadedConnectivityError -> handleErrorState(errorMessageResId = vehiclesMapState.errorMessageResId)
+                is VehicleMapViewState.VehiclesLoadedConnectivityError -> handleErrorState(
+                    errorMessageResId = vehiclesMapState.errorMessageResId
+                )
             }
         }
     }
@@ -148,7 +150,10 @@ class VehiclesMapActivity : AppCompatActivity(), OnMapReadyCallback {
         bottomSheetBehavior.isDraggable = false
     }
 
-    private fun handleErrorState(errorMessage: String? = null, @StringRes errorMessageResId: Int? = null) {
+    private fun handleErrorState(
+        errorMessage: String? = null,
+        @StringRes errorMessageResId: Int? = null
+    ) {
         val errorData = ErrorDataItem(
             errorMessageResId,
             errorMessage,
@@ -210,9 +215,9 @@ class VehiclesMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun resizeMapByBottomSheetOffset(offset: Float) {
         val maxHeightMap = binding.root.height - bottomSheetBehavior.peekHeight + 8.dpToPx
-            binding.map.updateLayoutParams {
-                height = ((1 - offset) * maxHeightMap).roundToInt()
-            }
+        binding.map.updateLayoutParams {
+            height = ((1 - offset) * maxHeightMap).roundToInt()
+        }
     }
 
 }

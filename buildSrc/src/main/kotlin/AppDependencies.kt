@@ -55,7 +55,8 @@ object AppDependencies {
     private val espressoContrib = "androidx.test.espresso:espresso-contrib:${Versions.espresso}"
     private val kotestArrow = "io.kotest.extensions:kotest-assertions-arrow:${Versions.kotestArrow}"
     private val kotestCore = "io.kotest:kotest-assertions-core:${Versions.kotestCore}"
-    private val mockWebServerDispatcher = "pl.droidsonroids.testing:mockwebserver-path-dispatcher:${Versions.mockWebServerDispatcher}"
+    private val mockWebServerDispatcher =
+        "pl.droidsonroids.testing:mockwebserver-path-dispatcher:${Versions.mockWebServerDispatcher}"
     private val hiltTesting = "com.google.dagger:hilt-android-testing:${Versions.hilt}"
 
     val presentationImplLibraries = arrayListOf<String>().apply {

@@ -9,7 +9,7 @@ import dev.dmanluc.freenowchallenge.domain.repository.PoiRepository
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class RepositoryModule{
+abstract class RepositoryModule {
 
     @Binds
     abstract fun bindPoiRepository(repositoryImpl: PoiRepositoryImpl): PoiRepository

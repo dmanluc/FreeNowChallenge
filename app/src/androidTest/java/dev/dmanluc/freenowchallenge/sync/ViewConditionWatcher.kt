@@ -19,7 +19,7 @@ object ViewConditionWatcher {
         waitUntilViewMatchesCondition(viewStringId, isDisplayed())
     }
 
-    fun waitUntilViewIsNotDisplayed(viewStringId:Int) {
+    fun waitUntilViewIsNotDisplayed(viewStringId: Int) {
         waitUntilViewMatchesCondition(viewStringId, not(isDisplayed()))
     }
 

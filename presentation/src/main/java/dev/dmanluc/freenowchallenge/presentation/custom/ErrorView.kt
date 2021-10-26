@@ -24,7 +24,8 @@ class ErrorView @JvmOverloads constructor(
 
     fun setData(item: ErrorDataItem) {
         with(binding) {
-            errorText.text = item.errorTextMessage ?: item.textResId?.let { context.getString(it) } ?: ""
+            errorText.text =
+                item.errorTextMessage ?: item.textResId?.let { context.getString(it) } ?: ""
             retryButton.setOnClickListener {
                 item.onErrorAction()
             }

@@ -1,6 +1,5 @@
 package dev.dmanluc.freenowchallenge.presentation.utils
 
-import dev.dmanluc.freenowchallenge.presentation.di.DispatcherProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

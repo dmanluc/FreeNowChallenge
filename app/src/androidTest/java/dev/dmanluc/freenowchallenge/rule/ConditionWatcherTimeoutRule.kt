@@ -20,7 +20,7 @@ class ConditionWatcherTimeoutRule(
         }
     }
 
-    companion object{
+    companion object {
         private const val DEFAULT_WATCHER_TIMEOUT = 5_000
     }
 }

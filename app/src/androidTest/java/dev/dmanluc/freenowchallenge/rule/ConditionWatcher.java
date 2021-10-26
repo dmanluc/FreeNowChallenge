@@ -11,11 +11,9 @@ public class ConditionWatcher {
 
     public static final int DEFAULT_TIMEOUT_LIMIT = 1000 * 60;
     public static final int DEFAULT_INTERVAL = 250;
-
+    private static ConditionWatcher conditionWatcher;
     private int timeoutLimit = DEFAULT_TIMEOUT_LIMIT;
     private int watchInterval = DEFAULT_INTERVAL;
-
-    private static ConditionWatcher conditionWatcher;
 
     private ConditionWatcher() {
         super();
@@ -31,7 +29,7 @@ public class ConditionWatcher {
     public static void waitForCondition(Instruction instruction) throws Exception {
         waitForCondition(instruction, getInstance().timeoutLimit, getInstance().watchInterval);
     }
-    
+
     public static void waitForCondition(Instruction instruction, int timeoutLimit) throws Exception {
         waitForCondition(instruction, timeoutLimit, getInstance().watchInterval);
     }
@@ -55,7 +53,7 @@ public class ConditionWatcher {
         } while (status != CONDITION_MET);
 
         if (status == TIMEOUT)
-            throw new Exception(instruction.getDescription() + " - took more than " + timeoutLimit/1000 + " seconds. Test stopped.");
+            throw new Exception(instruction.getDescription() + " - took more than " + timeoutLimit / 1000 + " seconds. Test stopped.");
     }
 
     public static void setWatchInterval(int watchInterval) {

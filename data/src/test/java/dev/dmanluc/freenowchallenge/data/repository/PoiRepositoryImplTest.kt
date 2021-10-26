@@ -36,19 +36,23 @@ class PoiRepositoryImplTest {
 
     @Test
     fun `verify get vehicle POIs on happy path interaction`() = runBlockingTest {
-        val requestBounds = MapBounds(Pair(MapCoordinate(Pair(50.0, 56.0)), MapCoordinate(Pair(56.0, 50.0))))
+        val requestBounds =
+            MapBounds(Pair(MapCoordinate(Pair(50.0, 56.0)), MapCoordinate(Pair(56.0, 50.0))))
         val vehiclePoisApiModel = VehiclePoisApiModel(VehiclePoiApiModelFactory.createMany(20))
         coEvery { remoteDataSource.getVehiclePois(any()) } returns vehiclePoisApiModel.toData()
 
         val result = SUT.getVehicles(requestBounds)
 
-        assertEquals(result.shouldBeRight(), vehiclePoisApiModel.toData().map { it.toDomainModel() })
+        assertEquals(
+            result.shouldBeRight(),
+            vehiclePoisApiModel.toData().map { it.toDomainModel() })
         coVerify(exactly = 1) { remoteDataSource.getVehiclePois(any()) }
     }
 
     @Test
     fun `verify get vehicle POIs on http error interaction`() = runBlockingTest {
-        val requestBounds = MapBounds(Pair(MapCoordinate(Pair(50.0, 56.0)), MapCoordinate(Pair(56.0, 50.0))))
+        val requestBounds =
+            MapBounds(Pair(MapCoordinate(Pair(50.0, 56.0)), MapCoordinate(Pair(56.0, 50.0))))
         val errorException = HttpException(createErrorResponse(400, "Error"))
         coEvery { remoteDataSource.getVehiclePois(any()) } throws errorException
 
@@ -60,7 +64,8 @@ class PoiRepositoryImplTest {
 
     @Test
     fun `verify get vehicle POIs on network error interaction`() = runBlockingTest {
-        val requestBounds = MapBounds(Pair(MapCoordinate(Pair(50.0, 56.0)), MapCoordinate(Pair(56.0, 50.0))))
+        val requestBounds =
+            MapBounds(Pair(MapCoordinate(Pair(50.0, 56.0)), MapCoordinate(Pair(56.0, 50.0))))
         val errorException = IOException()
         coEvery { remoteDataSource.getVehiclePois(any()) } throws errorException
 
@@ -72,7 +77,8 @@ class PoiRepositoryImplTest {
 
     @Test
     fun `verify get vehicle POIs on unknown error interaction`() = runBlockingTest {
-        val requestBounds = MapBounds(Pair(MapCoordinate(Pair(50.0, 56.0)), MapCoordinate(Pair(56.0, 50.0))))
+        val requestBounds =
+            MapBounds(Pair(MapCoordinate(Pair(50.0, 56.0)), MapCoordinate(Pair(56.0, 50.0))))
         val errorException = Throwable()
         coEvery { remoteDataSource.getVehiclePois(any()) } throws errorException
 

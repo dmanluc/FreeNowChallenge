@@ -31,7 +31,7 @@ class VehicleMapActivityTest {
 
     @get:Rule(order = 2)
     val activity = lazyActivityScenarioRule<VehiclesMapActivity>()
-    
+
     @get:Rule(order = 3)
     val conditionWatcherTimeoutRule = ConditionWatcherTimeoutRule(timeout = WATCHER_TIMEOUT)
 

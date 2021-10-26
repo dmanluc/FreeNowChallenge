@@ -35,7 +35,8 @@ class VehiclesRemoteDataSourceImplTest {
         val vehiclePoisApiModel = VehiclePoisApiModel(VehiclePoiApiModelFactory.createMany(20))
         coEvery { poiApi.getVehiclePois(any(), any(), any(), any()) } returns vehiclePoisApiModel
 
-        val result = SUT.getVehiclePois(VehicleBoundsSearchRequestDataModel(requestBounds, requestBounds))
+        val result =
+            SUT.getVehiclePois(VehicleBoundsSearchRequestDataModel(requestBounds, requestBounds))
 
         assertEquals(vehiclePoisApiModel.toData(), result)
         coVerify(exactly = 1) { poiApi.getVehiclePois(any(), any(), any(), any()) }

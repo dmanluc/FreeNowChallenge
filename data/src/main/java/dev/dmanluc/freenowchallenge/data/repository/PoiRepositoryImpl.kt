@@ -16,11 +16,12 @@ import javax.inject.Inject
 
 class PoiRepositoryImpl @Inject constructor(
     private val vehiclesRemoteDataSource: VehiclesRemoteDataSource
-): PoiRepository {
+) : PoiRepository {
 
     override suspend fun getVehicles(mapBounds: MapBounds): DomainResult<List<Vehicle>> {
         return try {
-            vehiclesRemoteDataSource.getVehiclePois(mapBounds.toDataModel()).map { it.toDomainModel() }.right()
+            vehiclesRemoteDataSource.getVehiclePois(mapBounds.toDataModel())
+                .map { it.toDomainModel() }.right()
         } catch (t: Throwable) {
             handleException(t).left()
         }
@@ -42,6 +43,7 @@ class PoiRepositoryImpl @Inject constructor(
         }
     }
 
-    private fun obtainErrorMessage(throwable: HttpException) = throwable.response()?.errorBody()?.string().orEmpty()
+    private fun obtainErrorMessage(throwable: HttpException) =
+        throwable.response()?.errorBody()?.string().orEmpty()
 
 }
