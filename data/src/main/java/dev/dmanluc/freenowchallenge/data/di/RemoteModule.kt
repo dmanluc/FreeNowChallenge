@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.dmanluc.freenowchallenge.data.BuildConfig
+import dev.dmanluc.freenowchallenge.data.di.BaseUrlModule.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -15,15 +16,7 @@ import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
-open class RemoteModule {
-
-    companion object {
-        const val BASE_URL = "BASE_URL"
-    }
-
-    @Named(BASE_URL)
-    @Provides
-    fun provideBaseUrl() = BuildConfig.BASE_URL
+object RemoteModule {
 
     @Provides
     fun provideMoshi() = Moshi.Builder().build()

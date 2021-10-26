@@ -5,6 +5,6 @@ object AppConfig {
     const val versionCode = 1
     const val versionName = "1.0.0"
 
-    const val androidTestInstrumentation = "dev.dmanluc.marvelmobiletest.runner.FakeRunner"
+    const val androidTestInstrumentation = "dev.dmanluc.freenowchallenge.runner.HiltTestRunner"
     const val proguardConsumerRules = "proguard-rules.pro"
 }

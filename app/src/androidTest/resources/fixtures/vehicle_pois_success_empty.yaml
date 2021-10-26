@@ -1,0 +1,4 @@
+statusCode: 200
+headers:
+  - 'Content-Type: application/json'
+body: vehicle_pois_success_empty.json
