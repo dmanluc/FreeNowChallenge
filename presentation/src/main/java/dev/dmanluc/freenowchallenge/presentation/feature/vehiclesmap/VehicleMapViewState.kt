@@ -1,6 +1,7 @@
 package dev.dmanluc.freenowchallenge.presentation.feature.vehiclesmap
 
 import android.os.Parcelable
+import androidx.annotation.StringRes
 import dev.dmanluc.freenowchallenge.presentation.model.VehicleItem
 import kotlinx.parcelize.Parcelize
 
@@ -13,7 +14,8 @@ import kotlinx.parcelize.Parcelize
  */
 sealed class VehicleMapViewState: Parcelable {
     @Parcelize object FirstLoading : VehicleMapViewState()
-    @Parcelize object EmptyVehiclesLoaded : VehicleMapViewState()
+    @Parcelize data class EmptyVehiclesLoaded(@StringRes val messageResId: Int) : VehicleMapViewState()
     @Parcelize data class VehiclesLoaded(val vehicleItemList: List<VehicleItem>) : VehicleMapViewState()
-    @Parcelize data class VehiclesLoadedError(val error: Throwable) : VehicleMapViewState()
+    @Parcelize data class VehiclesLoadedError(val errorMessage: String) : VehicleMapViewState()
+    @Parcelize data class VehiclesLoadedConnectivityError(@StringRes val errorMessageResId: Int) : VehicleMapViewState()
 }

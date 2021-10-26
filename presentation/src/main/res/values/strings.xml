@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">FREE NOW Android Challenge</string>
+
+    <string name="no_internet_connection_text">It seems you are offline. Please check your internet connection"</string>
+    <string name="error_fetching_vehicle_pois_text">Sorry but an error happened when loading characters</string>
+    <string name="empty_vehicle_pois_view_text">No characters found</string>
+    <string name="retry_loading_action_text">Retry</string>
 </resources>

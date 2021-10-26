@@ -9,14 +9,13 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="vertical"
-    app:behavior_fitToContents="false"
-    app:behavior_halfExpandedRatio="0.3"
-    app:behavior_hideable="true"
-    app:behavior_peekHeight="24dp"
-    app:behavior_saveFlags="all"
+    app:behavior_fitToContents="true"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="200dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <ImageView
+        android:id="@+id/dragIcon"
         android:layout_width="64dp"
         android:layout_height="8dp"
         android:layout_gravity="center"
@@ -24,10 +23,27 @@
         android:src="@drawable/round_rect_shape"
         tools:ignore="ContentDescription" />
 
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/loading"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center"
+        android:layout_margin="16dp"
+        android:indeterminate="true"
+        app:trackColor="@color/colorAccent"
+        tools:ignore="ContentDescription" />
+
+    <dev.dmanluc.freenowchallenge.presentation.custom.ErrorView
+        android:id="@+id/errorView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/vehiclesList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
         tools:itemCount="30"

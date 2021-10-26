@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.activity.viewModels
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.updateLayoutParams
@@ -16,14 +17,12 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_DRAGGING
-import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_SETTLING
+import com.google.android.material.bottomsheet.BottomSheetBehavior.*
 import dagger.hilt.android.AndroidEntryPoint
 import dev.dmanluc.freenowchallenge.presentation.R
+import dev.dmanluc.freenowchallenge.presentation.custom.ErrorDataItem
 import dev.dmanluc.freenowchallenge.presentation.databinding.ActivityMapsBinding
-import dev.dmanluc.freenowchallenge.presentation.extensions.bitmapDescriptorFromVector
-import dev.dmanluc.freenowchallenge.presentation.extensions.dpToPx
-import dev.dmanluc.freenowchallenge.presentation.extensions.viewBinding
+import dev.dmanluc.freenowchallenge.presentation.extensions.*
 import dev.dmanluc.freenowchallenge.presentation.model.VehicleItem
 import kotlin.math.roundToInt
 
@@ -79,12 +78,16 @@ class VehiclesMapActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        viewModel.getVehiclesFromMapBounds(VehiclesMapViewModel.mapBounds)
+        fetchVehiclePois()
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private fun configureRecyclerView() {
         binding.bottomSheetView.vehiclesList.adapter = vehiclesAdapter
+    }
+
+    private fun fetchVehiclePois() {
+        viewModel.getVehiclesFromMapBounds(VehiclesMapViewModel.mapBounds)
     }
 
     /**
@@ -117,17 +120,45 @@ class VehiclesMapActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun setupVehiclesObserver() {
         viewModel.vehiclesStateLiveData.observe(this) { vehiclesMapState ->
             when (vehiclesMapState) {
-                VehicleMapViewState.FirstLoading -> {}
-                VehicleMapViewState.EmptyVehiclesLoaded -> {}
-                is VehicleMapViewState.VehiclesLoaded -> {
-                    vehiclesAdapter.setItems(vehiclesMapState.vehicleItemList)
-                    vehiclesMapState.vehicleItemList.forEach { item ->
-                        addVehicleMapMarker(item)
-                    }
-                }
-                is VehicleMapViewState.VehiclesLoadedError -> {}
+                VehicleMapViewState.FirstLoading -> handleLoadingStatus()
+                is VehicleMapViewState.EmptyVehiclesLoaded -> handleErrorState(errorMessageResId = vehiclesMapState.messageResId)
+                is VehicleMapViewState.VehiclesLoaded -> handleVehiclesLoaded(vehiclesMapState)
+                is VehicleMapViewState.VehiclesLoadedError -> handleErrorState(errorMessage = vehiclesMapState.errorMessage)
+                is VehicleMapViewState.VehiclesLoadedConnectivityError -> handleErrorState(errorMessageResId = vehiclesMapState.errorMessageResId)
             }
         }
+    }
+
+    private fun handleVehiclesLoaded(vehiclesMapState: VehicleMapViewState.VehiclesLoaded) {
+        binding.bottomSheetView.loading.gone()
+        binding.bottomSheetView.errorView.gone()
+
+        vehiclesAdapter.setItems(vehiclesMapState.vehicleItemList)
+        vehiclesMapState.vehicleItemList.forEach { item ->
+            addVehicleMapMarker(item)
+        }
+        
+        binding.bottomSheetView.dragIcon.visible()
+        bottomSheetBehavior.isDraggable = true
+    }
+
+    private fun handleLoadingStatus() {
+        binding.bottomSheetView.loading.visible()
+        binding.bottomSheetView.errorView.gone()
+        bottomSheetBehavior.isDraggable = false
+    }
+
+    private fun handleErrorState(errorMessage: String? = null, @StringRes errorMessageResId: Int? = null) {
+        val errorData = ErrorDataItem(
+            errorMessageResId,
+            errorMessage,
+            onErrorAction = ::fetchVehiclePois
+        )
+        binding.bottomSheetView.loading.gone()
+        binding.bottomSheetView.dragIcon.gone()
+        binding.bottomSheetView.errorView.visible()
+        binding.bottomSheetView.errorView.setData(errorData)
+        bottomSheetBehavior.isDraggable = false
     }
 
     private fun addVehicleMapMarker(item: VehicleItem) {
@@ -151,7 +182,7 @@ class VehiclesMapActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun configureBottomSheet() {
-        bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheetView.bottomSheet)
+        bottomSheetBehavior = from(binding.bottomSheetView.bottomSheet)
         bottomSheetBehavior.addBottomSheetCallback(object :
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {}
@@ -165,11 +196,12 @@ class VehiclesMapActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
             }
         })
+
     }
 
     private fun onVehicleClicked(vehicle: VehicleItem) {
-        setBottomSheetVisibility(false)
         centerZoomAt(map, vehicle.mapLatLng)
+        bottomSheetBehavior.state = STATE_COLLAPSED
     }
 
     private fun centerZoomAt(googleMap: GoogleMap, coordinate: LatLng, zoomLevel: Int = 17) {
@@ -178,15 +210,9 @@ class VehiclesMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun resizeMapByBottomSheetOffset(offset: Float) {
         val maxHeightMap = binding.root.height - bottomSheetBehavior.peekHeight + 8.dpToPx
-        binding.map.updateLayoutParams {
-            height = ((1 - offset) * maxHeightMap).roundToInt()
-        }
-    }
-
-    private fun setBottomSheetVisibility(isVisible: Boolean) {
-        val updatedState =
-            if (isVisible) BottomSheetBehavior.STATE_EXPANDED else BottomSheetBehavior.STATE_HALF_EXPANDED
-        bottomSheetBehavior.state = updatedState
+            binding.map.updateLayoutParams {
+                height = ((1 - offset) * maxHeightMap).roundToInt()
+            }
     }
 
 }
