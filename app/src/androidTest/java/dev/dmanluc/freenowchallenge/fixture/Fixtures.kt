@@ -6,8 +6,6 @@ import pl.droidsonroids.testing.mockwebserver.condition.PathQueryConditionFactor
 
 fun FixtureDispatcher.defaults() {
     vehiclePoisSuccess()
-    vehiclePoisSuccessEmpty()
-    vehiclePoisError()
 }
 
 fun FixtureDispatcher.vehiclePoisSuccess() = map("" to "vehicle_pois_success")
@@ -20,4 +18,5 @@ fun FixtureDispatcher.map(pair: Pair<String, String>, httpMethod: HTTPMethod = H
     with(PathQueryConditionFactory("/")) {
         putResponse(withPathSuffix(pair.first, httpMethod), pair.second)
     }
+
 }

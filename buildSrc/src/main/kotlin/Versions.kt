@@ -29,10 +29,9 @@ object Versions {
     // Testing
     val kotlinCoroutinesTest = "1.5.1"
     val junit = "4.13.2"
-    val espresso = "3.3.0"
-    val androidXTestRunner = "1.3.0"
+    val espresso = "3.4.0"
+    val androidXTestRunner = "1.4.0"
     val androidXCoreTesting = "2.1.0"
-    val androidXJUnitTest = "1.1.2"
     val mockk = "1.12.0"
     val mockWebServer = "4.9.1"
     val kotestCore = "4.2.0"

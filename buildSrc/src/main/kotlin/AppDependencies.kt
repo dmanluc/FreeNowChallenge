@@ -49,10 +49,8 @@ object AppDependencies {
     private val androidXTestRunner = "androidx.test:runner:${Versions.androidXTestRunner}"
     private val androidXCoreTesting =
         "androidx.arch.core:core-testing:${Versions.androidXCoreTesting}"
-    private val androidXJunitTesting = "androidx.test.ext:junit:${Versions.androidXJUnitTest}"
     private val mockkAndroid = "io.mockk:mockk-android:${Versions.mockk}"
     private val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso}"
-    private val espressoContrib = "androidx.test.espresso:espresso-contrib:${Versions.espresso}"
     private val kotestArrow = "io.kotest.extensions:kotest-assertions-arrow:${Versions.kotestArrow}"
     private val kotestCore = "io.kotest:kotest-assertions-core:${Versions.kotestCore}"
     private val mockWebServerDispatcher =
@@ -134,13 +132,11 @@ object AppDependencies {
     val androidTestLibraries = arrayListOf<String>().apply {
         add(junit)
         add(mockkAndroid)
-        add(espressoContrib)
         add(mockWebServerDispatcher)
         add(mockWebServer)
         add(hiltTesting)
         add(androidXTestRunner)
         add(androidXCoreTesting)
-        add(androidXJunitTesting)
         add(espressoCore)
     }
 

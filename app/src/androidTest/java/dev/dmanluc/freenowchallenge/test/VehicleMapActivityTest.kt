@@ -30,7 +30,7 @@ class VehicleMapActivityTest {
     val mockWebServerRule = MockWebServerRule(appContext)
 
     @get:Rule(order = 2)
-    val activity = lazyActivityScenarioRule<VehiclesMapActivity>()
+    val activityScenarioRule = lazyActivityScenarioRule<VehiclesMapActivity>()
 
     @get:Rule(order = 3)
     val conditionWatcherTimeoutRule = ConditionWatcherTimeoutRule(timeout = WATCHER_TIMEOUT)
@@ -42,6 +42,8 @@ class VehicleMapActivityTest {
     fun setUp() {
         hiltAndroidRule.inject()
         Intents.init()
+
+        activityScenarioRule.launch()
     }
 
     @After
@@ -51,18 +53,13 @@ class VehicleMapActivityTest {
 
     @Test
     fun loadVehiclePoisOnActivityLaunch_whenSuccessFetchingNotEmpty_shouldShowVehiclePoisList() {
-        activity.launch()
-
         vehiclePoiList {
-            network.givenVehiclePoisSuccess()
             checkVehiclePois(30)
         }
     }
 
     @Test
     fun loadVehiclePoisOnActivityLaunch_whenSuccessFetchingEmpty_shouldShowEmptyPoisList() {
-        activity.launch()
-
         vehiclePoiList {
             network.givenEmptyVehiclePoisSuccess()
             isEmptyListMessageShown()
@@ -71,8 +68,6 @@ class VehicleMapActivityTest {
 
     @Test
     fun loadVehiclePoisOnActivityLaunch_whenErrorFetching_shouldShowErrorMessage() {
-        activity.launch()
-
         vehiclePoiList {
             network.givenVehiclePoisError()
             isErrorMessageShown()
@@ -81,8 +76,6 @@ class VehicleMapActivityTest {
 
     @Test
     fun loadVehiclePoisOnActivityLaunch_whenErrorFetchingAndRetryWithSuccessNotEmpty_shouldShowVehiclePoisList() {
-        activity.launch()
-
         vehiclePoiList {
             network.givenVehiclePoisError()
             isErrorMessageShown()
@@ -94,8 +87,6 @@ class VehicleMapActivityTest {
 
     @Test
     fun loadVehiclePoisOnActivityLaunch_whenErrorFetchingAndRetryWithSuccessEmpty_shouldShowEmptyVehiclePoisList() {
-        activity.launch()
-
         vehiclePoiList {
             network.givenVehiclePoisError()
             isErrorMessageShown()
@@ -107,8 +98,6 @@ class VehicleMapActivityTest {
 
     @Test
     fun loadVehiclePoisOnActivityLaunch_whenErrorFetchingAndRetryWithError_shouldShowErrorMessage() {
-        activity.launch()
-
         vehiclePoiList {
             network.givenVehiclePoisError()
             isErrorMessageShown()
@@ -119,8 +108,6 @@ class VehicleMapActivityTest {
 
     @Test
     fun loadVehiclePoisOnActivityLaunch_whenEmptyFetchingAndRetryWithSuccessNotEmpty_shouldShowVehiclePoisList() {
-        activity.launch()
-
         vehiclePoiList {
             network.givenEmptyVehiclePoisSuccess()
             isEmptyListMessageShown()
@@ -132,8 +119,6 @@ class VehicleMapActivityTest {
 
     @Test
     fun loadVehiclePoisOnActivityLaunch_whenEmptyFetchingAndRetryWithSuccessEmpty_shouldShowEmptyVehiclePoisList() {
-        activity.launch()
-
         vehiclePoiList {
             network.givenEmptyVehiclePoisSuccess()
             isEmptyListMessageShown()
@@ -144,8 +129,6 @@ class VehicleMapActivityTest {
 
     @Test
     fun loadVehiclePoisOnActivityLaunch_whenEmptyFetchingAndRetryWithError_shouldShowErrorMessage() {
-        activity.launch()
-
         vehiclePoiList {
             network.givenEmptyVehiclePoisSuccess()
             isEmptyListMessageShown()
