@@ -1,5 +1,6 @@
 package dev.dmanluc.freenowchallenge.presentation.feature.vehiclesmap
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -28,6 +29,7 @@ class VehicleListAdapter(
 
     override fun getItemCount(): Int = items.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setItems(vehicleList: List<VehicleItem>) {
         items.clear()
         items.addAll(vehicleList)

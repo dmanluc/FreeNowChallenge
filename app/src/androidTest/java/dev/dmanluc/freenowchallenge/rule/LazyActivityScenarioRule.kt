@@ -5,6 +5,13 @@ import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import org.junit.rules.ExternalResource
 
+/**
+ * @author   Daniel Manrique Lucas <dmanluc91@gmail.com>
+ * @version  1
+ *
+ * Definition of a lazy activity scenario rule
+ *
+ */
 class LazyActivityScenarioRule<A : Activity> : ExternalResource {
 
     constructor(launchActivity: Boolean, startActivityIntentSupplier: () -> Intent) {

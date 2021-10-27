@@ -12,6 +12,6 @@ import retrofit2.Retrofit
 object ApiModule {
 
     @Provides
-    fun providePoiApiService(retrofit: Retrofit) = retrofit.create(PoiApi::class.java)
+    fun providePoiApiService(retrofit: Retrofit): PoiApi = retrofit.create(PoiApi::class.java)
 
 }

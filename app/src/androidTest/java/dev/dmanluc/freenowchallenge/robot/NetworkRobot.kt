@@ -6,6 +6,13 @@ import dev.dmanluc.freenowchallenge.fixture.vehiclePoisSuccessEmpty
 import pl.droidsonroids.testing.mockwebserver.FixtureDispatcher
 import javax.inject.Inject
 
+/**
+ * @author   Daniel Manrique Lucas <dmanluc91@gmail.com>
+ * @version  1
+ *
+ * Definition of a robot (based on Robot Pattern) which handles different fixture dispatchers
+ *
+ */
 class NetworkRobot @Inject constructor(
     private val dispatcher: FixtureDispatcher
 ) {

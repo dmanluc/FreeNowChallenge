@@ -8,6 +8,13 @@ import dev.dmanluc.freenowchallenge.R
 import dev.dmanluc.freenowchallenge.sync.ViewConditionWatcher.waitUntilListIsLoaded
 import dev.dmanluc.freenowchallenge.sync.ViewConditionWatcher.waitUntilViewIsDisplayed
 
+/**
+ * @author   Daniel Manrique Lucas <dmanluc91@gmail.com>
+ * @version  1
+ *
+ * Definition of a robot (based on Robot Pattern) to interact with vehicle POI list
+ *
+ */
 fun vehiclePoiList(func: VehiclePoiRobot.() -> Unit): VehiclePoiRobot {
     waitUntilViewIsDisplayed(R.id.bottomSheetView)
     return VehiclePoiRobot().apply(func)

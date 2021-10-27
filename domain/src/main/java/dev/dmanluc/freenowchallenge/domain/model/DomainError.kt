@@ -4,7 +4,7 @@ package dev.dmanluc.freenowchallenge.domain.model
  * @author   Daniel Manrique Lucas <dmanluc91@gmail.com>
  * @version  1
  *
- *  Definition of a hierachy of possible errors happening when fetching from API
+ *  Definition of a hierachy of domain errors to work with
  *
  */
 sealed class DomainError {

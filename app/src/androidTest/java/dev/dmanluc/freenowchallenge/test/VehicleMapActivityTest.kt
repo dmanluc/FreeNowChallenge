@@ -16,6 +16,14 @@ import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 
+/**
+ * @author   Daniel Manrique Lucas <dmanluc91@gmail.com>
+ * @version  1
+ *
+ * UI test for vehicle map activity. Only interaction with vehicle POI list is done due to
+ * lack of support for testing map interaction with Espresso.
+ *
+ */
 @HiltAndroidTest
 class VehicleMapActivityTest {
 

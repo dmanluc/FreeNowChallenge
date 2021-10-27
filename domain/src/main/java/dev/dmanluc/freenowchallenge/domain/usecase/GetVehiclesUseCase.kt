@@ -10,7 +10,7 @@ import javax.inject.Inject
  * @author   Daniel Manrique Lucas <dmanluc91@gmail.com>
  * @version  1
  *
- * Use case to fetch vehicle data.
+ * Use case to fetch vehicle POIs data.
  *
  */
 class GetVehiclesUseCase @Inject constructor(private val repository: PoiRepository) {

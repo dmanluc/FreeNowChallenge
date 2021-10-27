@@ -11,6 +11,13 @@ import org.junit.runner.Description
 import org.junit.runners.model.Statement
 import pl.droidsonroids.testing.mockwebserver.FixtureDispatcher
 
+/**
+ * @author   Daniel Manrique Lucas <dmanluc91@gmail.com>
+ * @version  1
+ *
+ * Definition of a mock web server setup rule
+ *
+ */
 class MockWebServerRule(
     private val context: Context,
 ) : TestRule {

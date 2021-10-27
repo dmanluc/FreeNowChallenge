@@ -4,6 +4,13 @@ import pl.droidsonroids.testing.mockwebserver.FixtureDispatcher
 import pl.droidsonroids.testing.mockwebserver.condition.HTTPMethod
 import pl.droidsonroids.testing.mockwebserver.condition.PathQueryConditionFactory
 
+/**
+ * @author   Daniel Manrique Lucas <dmanluc91@gmail.com>
+ * @version  1
+ *
+ * Definition of fixture dispatchers to work with in UI tests
+ *
+ */
 fun FixtureDispatcher.defaults() {
     vehiclePoisSuccess()
 }

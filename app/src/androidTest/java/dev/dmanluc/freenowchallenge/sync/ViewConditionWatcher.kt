@@ -8,6 +8,13 @@ import dev.dmanluc.freenowchallenge.rule.ConditionWatcher
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.not
 
+/**
+ * @author   Daniel Manrique Lucas <dmanluc91@gmail.com>
+ * @version  1
+ *
+ * Utils for view assertions in UI tests
+ *
+ */
 @Suppress("unused")
 object ViewConditionWatcher {
 

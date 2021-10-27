@@ -11,6 +11,13 @@ import javax.inject.Named
 import javax.inject.Singleton
 import kotlin.concurrent.thread
 
+/**
+ * @author   Daniel Manrique Lucas <dmanluc91@gmail.com>
+ * @version  1
+ *
+ * Module to provide mock web server related stuff in UI tests
+ *
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object MockWebServerModule {

@@ -8,7 +8,7 @@ import retrofit2.http.Query
  * @author   Daniel Manrique Lucas <dmanluc91@gmail.com>
  * @version  1
  *
- * Poi API definition
+ * Vehicle POIs API definition
  *
  */
 interface PoiApi {

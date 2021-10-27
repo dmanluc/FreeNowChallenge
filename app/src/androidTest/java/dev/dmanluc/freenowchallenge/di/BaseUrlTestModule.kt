@@ -9,6 +9,13 @@ import dev.dmanluc.freenowchallenge.data.di.BaseUrlModule.BASE_URL
 import dev.dmanluc.freenowchallenge.di.MockWebServerModule.MOCK_WEB_SERVER_URL
 import javax.inject.Named
 
+/**
+ * @author   Daniel Manrique Lucas <dmanluc91@gmail.com>
+ * @version  1
+ *
+ * Test module to provide URL in UI testing
+ *
+ */
 @Module
 @TestInstallIn(
     components = [SingletonComponent::class],

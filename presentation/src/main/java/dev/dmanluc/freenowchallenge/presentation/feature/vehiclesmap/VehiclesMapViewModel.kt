@@ -15,6 +15,13 @@ import dev.dmanluc.freenowchallenge.presentation.extensions.toUiModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * @author   Daniel Manrique Lucas <dmanluc91@gmail.com>
+ * @version  1
+ *
+ * Definition of the viewmodel associated to the activity which stores and handles UI data & operations
+ *
+ */
 @HiltViewModel
 class VehiclesMapViewModel @Inject constructor(
     private val getVehiclesUseCase: GetVehiclesUseCase,

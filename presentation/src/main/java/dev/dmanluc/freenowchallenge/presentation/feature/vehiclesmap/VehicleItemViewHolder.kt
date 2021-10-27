@@ -8,12 +8,14 @@ class VehicleItemViewHolder(private val binding: ItemVehicleListBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bindVehicle(vehicle: VehicleItem, onClickVehicle: ((VehicleItem) -> Unit)) {
-        binding.vehicleName.text = vehicle.fleetType.description
-        binding.vehicleId.text = vehicle.id.toString()
-        vehicle.iconResource?.let { binding.vehicleIcon.setImageResource(it) }
+        with(binding) {
+            vehicleName.text = vehicle.fleetType.description
+            vehicleId.text = vehicle.id
+            vehicle.iconResource?.let { vehicleIcon.setImageResource(it) }
 
-        binding.root.setOnClickListener {
-            onClickVehicle(vehicle)
+            root.setOnClickListener {
+                onClickVehicle(vehicle)
+            }
         }
     }
 

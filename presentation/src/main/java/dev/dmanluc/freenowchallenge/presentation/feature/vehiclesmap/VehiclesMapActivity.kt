@@ -25,6 +25,13 @@ import dev.dmanluc.freenowchallenge.presentation.extensions.*
 import dev.dmanluc.freenowchallenge.presentation.model.VehicleItem
 import kotlin.math.roundToInt
 
+/**
+ * @author   Daniel Manrique Lucas <dmanluc91@gmail.com>
+ * @version  1
+ *
+ * Screen which shows a vehicle POI list in a permanent bottom sheet component and their location on a google map
+ *
+ */
 @AndroidEntryPoint
 class VehiclesMapActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -162,7 +169,7 @@ class VehiclesMapActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun addVehicleMapMarker(item: VehicleItem) {
         val mapMarkerOptions = MarkerOptions()
             .title(item.fleetType.description)
-            .snippet(item.id.toString())
+            .snippet(item.id)
             .position(item.mapLatLng)
             .also {
                 if (item.iconResource != null) {
