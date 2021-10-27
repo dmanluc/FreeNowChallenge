@@ -107,10 +107,15 @@ object AppDependencies {
         add(arrowCore)
     }
 
-    val domainTestLibraries = arrayListOf<String>().apply {
-        add(junit)
+    val testLibraries = arrayListOf<String>().apply {
         add(kotlinCoroutinesTest)
+        add(mockk)
+        add(junit)
+        add(kotestCore)
+        add(kotestArrow)
     }
+
+    val domainTestLibraries = testLibraries
 
     val appImplLibraries = arrayListOf<String>().apply {
         add(hilt)
@@ -123,6 +128,8 @@ object AppDependencies {
     }
 
     val presentationKaptLibraries = appKaptLibraries
+    
+    val presentationTestLibraries = testLibraries.add(androidXCoreTesting)
 
     val androidTestLibraries = arrayListOf<String>().apply {
         add(junit)
@@ -136,16 +143,6 @@ object AppDependencies {
         add(androidXJunitTesting)
         add(espressoCore)
     }
-
-    val testLibraries = arrayListOf<String>().apply {
-        add(kotlinCoroutinesTest)
-        add(mockk)
-        add(junit)
-        add(kotestCore)
-        add(kotestArrow)
-    }
-
-    val presentationTestLibraries = testLibraries.add(androidXCoreTesting)
 
 }
 

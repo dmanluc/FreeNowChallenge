@@ -1,4 +1,4 @@
-package dev.dmanluc.freenowchallenge.presentation.utils
+package dev.dmanluc.freenowchallenge.domain.utils
 
 import dev.dmanluc.freenowchallenge.domain.model.FleetType
 import dev.dmanluc.freenowchallenge.domain.model.MapCoordinate

@@ -8,7 +8,7 @@ fun VehiclePoisApiModel.toData(): List<VehicleDataModel> =
     vehiclePoiList.filter { it.id != null }.map { it.toData() }
 
 private fun VehiclePoiApiModel.toData() = VehicleDataModel(
-    id = id ?: 0,
+    id = id?.toString().orEmpty(),
     mapCoordinate = Pair(coordinate?.latitude ?: 0.0, coordinate?.longitude ?: 0.0),
     fleetType = fleetType?.uppercase().orEmpty(),
     mapBearing = heading ?: 0.0

@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class VehicleItem(
-    val id: Int,
+    val id: String,
     val mapLatLng: LatLng,
     val fleetType: FleetType,
     @DrawableRes val iconResource: Int? = null,

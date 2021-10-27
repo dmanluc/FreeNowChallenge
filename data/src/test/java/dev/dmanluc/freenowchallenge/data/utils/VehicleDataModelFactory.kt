@@ -8,7 +8,7 @@ object VehicleDataModelFactory : ModelFactory<VehicleDataModel> {
 
     override fun createOne(): VehicleDataModel {
         return VehicleDataModel(
-            Random.nextInt(),
+            Random.nextInt().toString(),
             Pair(Random.nextDouble(-90.0, 90.0), Random.nextDouble(-180.0, 180.0)),
             FleetType.values().map { it.description }.random().uppercase(),
             Random.nextDouble(360.0)
