@@ -19,7 +19,7 @@ import javax.inject.Named
 object RemoteModule {
 
     @Provides
-    fun provideMoshi() = Moshi.Builder().build()
+    fun provideMoshi(): Moshi = Moshi.Builder().build()
 
     @Provides
     fun provideLoggingLevel(): HttpLoggingInterceptor.Level = if (BuildConfig.DEBUG) {
@@ -42,7 +42,7 @@ object RemoteModule {
         moshi: Moshi,
         okHttpClient: OkHttpClient,
         @Named(BASE_URL) baseUrl: String,
-    ) = Retrofit.Builder()
+    ): Retrofit = Retrofit.Builder()
         .addConverterFactory(MoshiConverterFactory.create(moshi))
         .client(okHttpClient)
         .baseUrl(baseUrl)
